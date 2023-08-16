@@ -13,7 +13,7 @@ load_dotenv()
 
 def base_login():
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless=new")
+    # options.add_argument("--headless=new")
     options.add_argument("--window-size=1280,700")
     options.add_experimental_option("detach", True)
     driver = webdriver.Chrome(options)
@@ -25,7 +25,7 @@ def base_login():
 
     Transfer(driver).execute()
 
-    driver.quit()
+    # driver.quit()
 
 
 if __name__ == "__main__":

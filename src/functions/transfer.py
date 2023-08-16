@@ -1,5 +1,6 @@
 import os
 
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Chrome
 from dotenv import load_dotenv
@@ -23,22 +24,32 @@ class Transfer:
 
         self.driver.set_page_load_timeout(30)
 
-        # Find origin account field
-        self.driver.find_element(
-            By.XPATH, '//*[@id="mat-select-2"]/div/div[2]').click()
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(lambda driver: driver.find_element(
+            By.ID, 'productos-resumen').is_displayed())
 
-        self.driver.implicitly_wait(5)
+        resumen = self.driver.find_element(By.ID, 'productos-resumen')
 
-        # Select first account as the origin account
-        self.driver.find_element(By.XPATH, '//*[@id="mat-option-3"]').click()
+        data = resumen.find_elements(By.CLASS_NAME, 'number number--small')
 
-        self.driver.find_element(
-            By.XPATH, '//*[@id="mat-input-3"]').send_keys('1')
+        print(resumen.get_attribute('innerHTML'))
 
-        self.driver.find_element(
-            By.XPATH, '//*[@id="mat-input-2"]').send_keys(os.getenv("BANCO_DE_CHILE_ACCOUNT_PASSWORD"))
+        # # Find origin account field
+        # self.driver.find_element(
+        #     By.XPATH, '//*[@id="mat-select-2"]/div/div[2]').click()
 
-        self.driver.implicitly_wait(5)
+        # self.driver.implicitly_wait(5)
+
+        # # Select first account as the origin account
+        # self.driver.find_element(By.XPATH, '//*[@id="mat-option-3"]').click()
+
+        # self.driver.find_element(
+        #     By.XPATH, '//*[@id="mat-input-3"]').send_keys('1')
+
+        # self.driver.find_element(
+        #     By.XPATH, '//*[@id="mat-input-2"]').send_keys(os.getenv("BANCO_DE_CHILE_ACCOUNT_PASSWORD"))
+
+        # self.driver.implicitly_wait(5)
 
         # self.driver.find_elements(
         #     By.XPATH, ('//*[@id="main"]/fenix-transferencia-electronica-root/div/ui-view/'
